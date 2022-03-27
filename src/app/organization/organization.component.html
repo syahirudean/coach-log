@@ -1,0 +1,58 @@
+<section class="container mt-5">
+    <div class="d-flex flex-column flex-sm-row justify-content-between">
+        <div class="d-flex flex-row p-2 bd-highlight">
+            <div class="p-2 bd-highlight">
+                <img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+            </div>
+            <div class="p-2 bd-highlight flex-grow-1">
+                <h2>SGNA</h2>
+            </div>
+        </div>
+        <div class="d-flex flex-row p-2 bd-highlight d-flex align-items-baseline justify-content-end">
+            <div class="p-2 bd-highlight align-self-end"><b>Sessions</b>: 2</div>
+            <div class="p-2 bd-highlight align-self-end"><b>Hours</b>: 4</div>
+            <div class="p-2 bd-highlight align-self-end"><b>Amount</b> ($): 130</div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <b>Title</b>
+                    </th>
+                    <th scope="col">
+                        <b>Date</b>
+                    </th>
+                    <th scope="col">
+                        <b>Start</b>
+                    </th>
+                    <th scope="col">
+                        <b>End</b>
+                    </th>
+                    <th scope="col" class="text-center">
+                        <b>Hours</b>
+                    </th>
+                    <th scope="col">
+                        <b>Amount</b>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let organization of organizations">
+                    <td>{{ organization.title }}</td>
+                    <td>{{ organization.date | date }}</td>
+                    <td>{{ organization.start }}</td>
+                    <td>{{ organization.end }}</td>
+                    <td class="text-center">{{ organization.hours }}</td>
+                    <td>{{ organization.hours * organization.amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-grid gap-2 d-sm-block fixed-bottom mb-3 mb-sm-5 me-sm-5 px-2">
+        <button class="btn btn-warning btn-lg float-end me-sm-5 shadow" type="button" routerLink="/organization/add-session">
+            ➕
+        </button>
+    </div>
+</section>

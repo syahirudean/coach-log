@@ -1,0 +1,91 @@
+<form class="container mt-5 mb-3 col col-md-6 mx-auto" action="" [formGroup]="sessionForm!"
+    (ngSubmit)="submitHandler()">
+    <h2 class="mb-3">Add New Sessions</h2>
+    <div class="col mb-3">
+        <label class="form-label">Title</label>
+        <input type="title" class="form-control" formControlName="title"
+            [ngClass]="{'border border-danger': title?.invalid && title?.touched }">
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Rate ($/hr)</label>
+            <input type="number" class="form-control" formControlName="amount" min="1" max="999" placeholder="0"
+                [ngClass]="{'border border-danger': amount?.invalid && amount?.touched }">
+        </div>
+        <div class="col">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-control" formControlName="date"
+                [ngClass]="{'border border-danger': date?.invalid && date?.touched }">
+        </div>
+    </div>
+
+    <label class="form-label">Start Time</label>
+    <div class="d-flex bd-highlight mb-3">
+        <div class="flex-fill bd-highlight input-group pe-1">
+            <select class="form-select col" formControlName="start_hh"
+                [ngClass]="{'border border-danger': start_hh?.invalid && start_hh?.touched }">
+                <option [value]="hour" *ngFor="let hour of hours">{{ hour | number:'2.0-0' }}</option>
+            </select>
+            <label class="input-group-text">hh</label>
+        </div>
+        <div class="flex-fill bd-highlight input-group ps-1">
+            <select class="form-select col ms-2" formControlName="start_mm"
+                [ngClass]="{'border border-danger': start_mm?.invalid && start_mm?.touched }">
+                <option [value]="min" *ngFor="let min of minutes">{{ min | number:'2.0-0' }}</option>
+            </select>
+            <label class="input-group-text">mm</label>
+        </div>
+    </div>
+
+    <label class="form-label">End Time</label>
+    <div class="d-flex bd-highlight mb-3">
+        <div class="flex-fill bd-highlight input-group pe-1">
+            <select class="form-select col" formControlName="end_hh"
+                [ngClass]="{'border border-danger': end_hh?.invalid && end_hh?.touched }">
+                <option [value]="hour" *ngFor="let hour of hours">{{ hour | number:'2.0-0' }}</option>
+            </select>
+            <label class="input-group-text">hh</label>
+        </div>
+        <div class="flex-fill bd-highlight input-group ps-1">
+            <select class="form-select col ms-2" formControlName="end_mm"
+                [ngClass]="{'border border-danger': end_mm?.invalid && end_mm?.touched }">
+                <option [value]="min" *ngFor="let min of minutes">{{ min | number:'2.0-0' }}</option>
+            </select>
+            <label class="input-group-text">mm</label>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col">
+            <label class="form-label">Weekly?</label>
+            <div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" value="Yes" name="flexRadioDefault" #status="ngModel"
+                        [(ngModel)]="recurrence.status" [ngModelOptions]="{standalone: true}">
+                    <label class="form-check-label">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" value="No" name="flexRadioDefault" #status="ngModel"
+                        [(ngModel)]="recurrence.status" [ngModelOptions]="{standalone: true}">
+                    <label class="form-check-label">
+                        No
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" *ngIf="status.value == 'Yes'">
+            <label class="form-label">Occurrences</label>
+            <select class="form-select" formControlName="count"
+                [ngClass]="{'border border-danger': end_mm?.invalid && end_mm?.touched }">
+                <option [value]="count" *ngFor="let count of occurrences">{{ count }}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="d-grid mt-5">
+        <button class="btn btn-primary" type="submit" [disabled]="sessionForm?.invalid">Done 🚀</button>
+    </div>
+</form>
