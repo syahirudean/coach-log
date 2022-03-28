@@ -1,13 +1,11 @@
 .thumbnail {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("https://static.wixstatic.com/media/4fdd80_34b35da403cf4c0fa779102959c9bb2e~mv2.jpg/v1/fill/w_298,h_130,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/4fdd80_34b35da403cf4c0fa779102959c9bb2e~mv2.jpg");
+  background-image: url("https://lh3.googleusercontent.com/-A74ghfMCKDA/AAAAAAAAAAI/AAAAAAAAAAA/7rXnvETPMNo/s88-p-k-no-ns-nd/photo.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
   &:hover {
     opacity: 0.5;
     cursor: pointer;
