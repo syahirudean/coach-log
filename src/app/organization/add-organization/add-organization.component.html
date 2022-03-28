@@ -1,0 +1,23 @@
+<form class="container mt-5 mb-3 col col-md-6 mx-auto" action="" [formGroup]="organizationForm!"
+    (ngSubmit)="submitHandler()">
+    <h2 class="mb-3">Add New Client</h2>
+    <div class="mb-3">
+        <label class="form-label">Image Url</label>
+        <input type="url" class="form-control" formControlName="img_url" placeholder="https://..."
+            [ngClass]="{'border border-danger': name?.invalid && name?.touched }">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Client Name</label>
+        <input type="text" class="form-control" formControlName="name"
+            [ngClass]="{'border border-danger': name?.invalid && name?.touched }">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" formControlName="description" rows="5"
+            [ngClass]="{'border border-danger': name?.invalid && name?.touched }"></textarea>
+    </div>
+
+    <div class="d-grid mt-5">
+        <button class="btn btn-primary" type="submit" [disabled]="organizationForm?.invalid">Done 🚀</button>
+    </div>
+</form>

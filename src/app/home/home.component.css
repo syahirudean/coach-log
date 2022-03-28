@@ -1,0 +1,15 @@
+.thumbnail {
+  background-image: url("https://lh3.googleusercontent.com/-A74ghfMCKDA/AAAAAAAAAAI/AAAAAAAAAAA/7rXnvETPMNo/s88-p-k-no-ns-nd/photo.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.thumbnail:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+/*# sourceMappingURL=home.component.css.map */
