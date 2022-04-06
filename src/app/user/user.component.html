@@ -1,0 +1,25 @@
+<div class="container" style="height: 100vh">
+
+    <!-- Three columns of text below the carousel -->
+    <div class="row row-cols-2 row-cols-md-5 mt-4" *ngIf="organizations$ | async">
+
+        <div class="col text-center mt-3" *ngFor="let organization of organizations$ | async">
+            <div class="col-2 mx-auto mb-2 shadow rounded-circle border border-secondary border-3"
+                style="height: 80px; width: 80px" [routerLink]="'/'+ uid.uid + '/' + organization.id">
+                <img class="img-fluid rounded-circle" [src]="organization.img_url" alt="organization">
+            </div>
+            <h6>{{ organization.name }}</h6>
+        </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+
+    <div class="display-6 text-center mt-5 pt-5 text-primary opacity-75" *ngIf="!(organizations$ | async)?.length">
+        No client added yet... 😞
+    </div>
+
+    <div class="d-block fixed-bottom mb-3 mb-sm-5 me-sm-5 px-4">
+        <button class="btn btn-secondary btn-lg float-end me-sm-5 shadow-lg px-4" type="button"
+            routerLink="organization/add-client">
+            <h1 class="mb-1">+</h1>
+        </button>
+    </div>
+</div>

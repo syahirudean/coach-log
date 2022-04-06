@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "coach-time": {
+      "hosting": {
+        "coach-time": [
+          "coachlog"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "coach-time"
+  }
+}
