@@ -1,17 +1,56 @@
-<section class="container mt-5">
-    <div class="d-flex flex-column flex-sm-row justify-content-between">
-        <div class="d-flex flex-row p-2 bd-highlight">
-            <div class="p-2 bd-highlight">
-                <img src="https://github.com/mdo.png" alt="mdo" width="40" height="40" class="rounded-circle">
+<section class="container my-5">
+    <div class="d-flex flex-column flex-md-row bd-highlight justify-content-between mb-3"
+        *ngIf="organization$ | async as organization">
+        <div class="d-flex flex-row bd-highlight">
+            <div class="bd-highlight">
+                <img [src]="organization.img_url" alt="mdo" width="50" height="50"
+                    class="rounded-circle border border-2 border-secondary">
             </div>
-            <div class="p-2 bd-highlight flex-grow-1">
-                <h2>SGNA</h2>
+            <div class="d-flex p-2 bd-highlight">
+                <div class="align-self-center">
+                    <h2 class="mb-0">{{ organization.name }}</h2>
+                </div>
             </div>
         </div>
-        <div class="d-flex flex-row p-2 bd-highlight d-flex align-items-baseline justify-content-end">
-            <div class="p-2 bd-highlight align-self-end"><b>Sessions</b>: 2</div>
-            <div class="p-2 bd-highlight align-self-end"><b>Hours</b>: 4</div>
-            <div class="p-2 bd-highlight align-self-end"><b>Amount</b> ($): 130</div>
+        <div class="d-flex flex-row  bd-highlight">
+            <div class="p-2 bd-highlight">
+                <b>Sessions:</b><br>{{ organization.total_sessions }}
+            </div>
+            <div class="p-2 bd-highlight">
+                <b>Hours:</b><br>{{ organization.total_hours }}
+            </div>
+            <div class="p-2 bd-highlight">
+                <b>Earnings:</b><br>$ {{ organization.total_earnings | number:'1.1-2' }}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-md-row justify-content-end">
+        <form class="col col-md-4">
+            <label class="form-label">Filter by</label>
+            <select class="form-select form-select-sm mb-3" name="filter" [(ngModel)]="filter" placeholder="Filter by"
+                [ngModelOptions]="{standalone: true}" (change)="getCollection()">
+                <option value="⭐️">⭐️</option>
+                <option *ngFor="let title of (organization$ | async)?.tags" [value]="title">
+                    {{ title | titlecase }}</option>
+            </select>
+            <div class="row g-3 mb-3">
+                <div class="col">
+                    <input type="date" class="form-control form-control-sm" name="start_date" [(ngModel)]="start_date"
+                        [ngModelOptions]="{standalone: true}" [min]="min_date" [max]="end_date"
+                        (change)="getCollection()">
+                </div>
+                <div class="col">
+                    <input type="date" class="form-control form-control-sm" fname="filter" [(ngModel)]="end_date"
+                        [ngModelOptions]="{standalone: true}" [min]="start_date" [max]="max_date"
+                        (change)="getCollection()">
+                </div>
+            </div>
+        </form>
+        <div
+            class="col col-md-4 d-flex flex-row p-2 bd-highlight d-flex align-items-baseline justify-content-end ms-auto">
+            <div class="p-2 bd-highlight align-self-end"><b>💼</b>: {{ sessions?.length }}</div>
+            <div class="p-2 bd-highlight align-self-end"><b>🕓</b>: {{ current_hours }} hrs</div>
+            <div class="p-2 bd-highlight align-self-end"><b>💰</b>: $ {{ current_earnings | number:'1.1-2' }}</div>
         </div>
     </div>
     <div class="table-responsive">
@@ -19,46 +58,65 @@
             <thead>
                 <tr>
                     <th scope="col">
-                        <b>Title</b>
+                        <b>⭐️</b>
                     </th>
                     <th scope="col">
-                        <b>Date</b>
+                        <b>🗓</b>
                     </th>
                     <th scope="col">
-                        <b>Start</b>
+                        <b>⏳</b>
                     </th>
                     <th scope="col">
-                        <b>End</b>
+                        <b>⌛️</b>
                     </th>
                     <th scope="col" class="text-center">
-                        <b>Hours</b>
+                        <b>🕓</b>
                     </th>
                     <th scope="col">
-                        <b>Amount</b>
+                        <b>💰</b>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let organization of organizations">
-                    <td>{{ organization.title }}</td>
-                    <td>{{ organization.date | date }}</td>
-                    <td>{{ organization.start }}</td>
-                    <td>{{ organization.end }}</td>
-                    <td class="text-center">{{ organization.hours }}</td>
-                    <td>{{ organization.hours * organization.amount}}</td>
+                <tr class="pointer" *ngFor="let session of sessions" data-bs-toggle="modal" data-bs-target="#loginModal"
+                    (click)="openModal(session.id!, session.title!, session.date!)">
+                    <td><small>{{ session.title }}</small></td>
+                    <td><small>{{ session.date | date }}</small></td>
+                    <td><small>{{ session.start_time }}</small></td>
+                    <td><small>{{ session.end_time }}</small></td>
+                    <td class="text-center"><small>{{ session.hours }}</small></td>
+                    <td><small>{{ session.hours! * session.amount! | number:'1.0-0' }}</small></td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div class="d-block fixed-bottom mb-3 mb-sm-5 me-sm-5 px-4">
-        <button class="btn btn-secondary btn-lg float-end me-sm-5 shadow-lg px-4" type="button"
-            routerLink="organization/add-session">
-            <h1 class="mb-1">+</h1>
-        </button>
-    </div>
-</section>
 
-<!-- Modal -->
-<!-- <app-modal id="notification">
-    <button (click)="closeModal('notification');">Close</button>
-</app-modal> -->
+    <!-- Modal -->
+    <div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 shadow">
+                <div class="modal-header border-bottom-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        #closeModal></button>
+                </div>
+                <div class="modal-body p-4 py-0 text-center">
+                    <h5 class="mb-2">Remove {{ modal_data.title }} {{ modal_data.date | date }}?</h5>
+                    <p class="mb-0">Warning! once permanently removed, it cannot be retrieved.</p>
+                </div>
+                <div class="modal-footer flex-column border-top-0">
+                    <button type="button" class="btn btn-sm btn-primary w-100 mx-0 mb-2"
+                        (click)="deleteSession(modal_data.id)">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- TODO: CREATE PAGINATION -->
+    <!-- <div class="d-grid gap-1 d-flex justify-content-md-end">
+        <button class="btn btn-sm btn-primary me-md-2" type="button">👈</button>
+        <button class="btn btn-sm btn-primary" type="button">👉</button>
+    </div> -->
+    <button class="btn btn-secondary btn-lg fixed-bottom mb-3 mb-sm-5 float-end me-3 me-md-5 shadow-lg px-4 ms-auto"
+        style="width: 5rem" type="button" (click)="goTo(userId.uid + '/' + organization_id + '/' + 'add-session')">
+        <h1 class="mb-1">+</h1>
+    </button>
+</section>

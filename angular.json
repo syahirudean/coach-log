@@ -34,7 +34,10 @@
               "src/styles.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -104,9 +107,22 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "coach-time:build:production",
+            "firebaseProject": "coach-time",
+            "firebaseHostingSite": "coachlog"
+          }
         }
       }
     }
   },
-  "defaultProject": "coach-time"
+  "defaultProject": "coach-time",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

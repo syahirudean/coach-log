@@ -1,13 +1,13 @@
-.thumbnail {
-  background-image: url("https://lh3.googleusercontent.com/-A74ghfMCKDA/AAAAAAAAAAI/AAAAAAAAAAA/7rXnvETPMNo/s88-p-k-no-ns-nd/photo.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  width: 80px;
-  height: 80px;
-  &:hover {
-    opacity: 0.5;
-    cursor: pointer;
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
   }
 }
