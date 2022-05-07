@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-row  bd-highlight">
+        <!-- <div class="d-flex flex-row  bd-highlight">
             <div class="p-2 bd-highlight">
                 <b>Sessions:</b><br>{{ organization.total_sessions }}
             </div>
@@ -22,7 +22,7 @@
             <div class="p-2 bd-highlight">
                 <b>Earnings:</b><br>$ {{ organization.total_earnings | number:'1.1-2' }}
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="d-flex flex-column flex-md-row justify-content-end">
         <form class="col col-md-4">
@@ -30,8 +30,8 @@
             <select class="form-select form-select-sm mb-3" name="filter" [(ngModel)]="filter" placeholder="Filter by"
                 [ngModelOptions]="{standalone: true}" (change)="getCollection()">
                 <option value="⭐️">⭐️</option>
-                <option *ngFor="let title of (organization$ | async)?.tags" [value]="title">
-                    {{ title | titlecase }}</option>
+                <option *ngFor="let title of tags" [value]="title">
+                    {{ title | uppercase }}</option>
             </select>
             <div class="row g-3 mb-3">
                 <div class="col">
@@ -58,6 +58,9 @@
             <thead>
                 <tr>
                     <th scope="col">
+                        <b>🧮</b>
+                    </th>
+                    <th scope="col">
                         <b>⭐️</b>
                     </th>
                     <th scope="col">
@@ -78,8 +81,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="pointer" *ngFor="let session of sessions" data-bs-toggle="modal" data-bs-target="#loginModal"
+                <!-- Get index of array -->
+                <tr class="pointer" *ngFor="let session of sessions; let i = index" data-bs-toggle="modal" data-bs-target="#loginModal"
                     (click)="openModal(session.id!, session.title!, session.date!)">
+                    <td><small>{{ i + 1 }}</small></td>
                     <td><small>{{ session.title }}</small></td>
                     <td><small>{{ session.date | date }}</small></td>
                     <td><small>{{ session.start_time }}</small></td>

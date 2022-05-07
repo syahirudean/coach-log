@@ -26,6 +26,7 @@ export class OrganizationComponent {
   organization$?: Observable<any>;
   colRef: any;
   sessions?: Session[] = [];
+  tags?: string[] = [];
   organization_id = this.route.snapshot.paramMap.get('id');
   filter: string = '⭐️';
   start_date?: string = new Date(Date.now()).toISOString().split('T')[0];
@@ -131,6 +132,7 @@ export class OrganizationComponent {
         0
       );
       this.sessions = datas;
+      this.getTags(datas, this.tags);
     });
   }
 
@@ -156,5 +158,21 @@ export class OrganizationComponent {
       this.closeModal?.nativeElement.click();
       return alert('❌ Session could not be deleted, please try again later');
     }
+  }
+
+  // get titles from sessions and push to tags array while removing duplicates
+  getTags(sessions: Session[] | undefined, tags: string[] | undefined) {
+    if (sessions) {
+      sessions.forEach((session: Session) => {
+        if (tags) {
+          if (!tags.includes(session.title!)) {
+            tags.push(session.title!);
+          }
+        } else {
+          tags = [session.title!];
+        }
+      });
+    }
+    return tags;
   }
 }
